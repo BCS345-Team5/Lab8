@@ -1,5 +1,4 @@
 import java.util.Random;
-
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -15,6 +14,7 @@ public class SuperCircle {
 	private int radius;
 	private double centerX = MainDriver.WINDOW_CENTER_X;
 	private double centerY = MainDriver.WINDOW_CENTER_Y;
+	@SuppressWarnings("unused")
 	private Point center = new Point();
 
 	private circlePoint[] points = new circlePoint[3];
@@ -105,11 +105,11 @@ public class SuperCircle {
 
 	public void showDebug() {
 		int y = 30;
-		StringProperty sep = new SimpleStringProperty(", ");
+		StringProperty comma = new SimpleStringProperty(", ");
 		for (int i = 0; i < 3; i++) {
 			StringProperty pText = new SimpleStringProperty("P" + i + ": ");
 			Text p = new Text(10, y, "");
-			p.textProperty().bind(pText.concat(points[i].x).concat(sep).concat(points[i].y));
+			p.textProperty().bind(pText.concat(points[i].x).concat(comma).concat(points[i].y));
 
 			group.getChildren().add(p);
 			y+=15;

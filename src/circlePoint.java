@@ -1,6 +1,4 @@
 import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -24,7 +22,7 @@ public class circlePoint extends Point{
 	}
 	
 	private void init() {
-		circle = new Circle(x.get() + centerX, y.get()+ centerY, radius);
+		circle = new Circle(x.get() + centerX, (-1 * y.get())+ centerY, radius);
 		circle.setFill(Color.RED);
 		circle.setStroke(Color.BLACK);
 		circle.setOnMouseDragged(this::mouseDragHandler);
@@ -62,11 +60,11 @@ public class circlePoint extends Point{
 		
 		double tmpY = genYCoord(x.get(), scRadius);
 		
-		if(event.getY() < centerY)
+		if(event.getY() > centerY)
 			tmpY = tmpY * -1;
 		y.set(tmpY);
 			
-		circle.setCenterY(y.get() + centerY);
+		circle.setCenterY((-1 * y.get()) + centerY);
 	}
 	
 	public void updatePos(double newSCRadius) {
@@ -83,7 +81,7 @@ public class circlePoint extends Point{
 		y.set(y.get() * radiusRatio);
 		
 		circle.setCenterX(x.get() + centerX);
-		circle.setCenterY(y.get() + centerY);
+		circle.setCenterY((-1 * y.get()) + centerY);
 		
 	}	
 	
