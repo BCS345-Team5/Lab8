@@ -62,7 +62,7 @@ public class SuperCircle {
 		tmp.getChildren().addAll(lines);
 		for (int i = 0; i < 3; i++) 
 			tmp.getChildren().add(points[i].getCircle());
-
+		
 		return tmp;
 	}
 
