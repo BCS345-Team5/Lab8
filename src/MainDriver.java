@@ -21,9 +21,9 @@ public class MainDriver extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 
-		double calculatedRatio = WINDOW_SIZE_X * CIRCLE_WINDOW_RATIO / 2;
+		double calculatedRadius = WINDOW_SIZE_X * CIRCLE_WINDOW_RATIO / 2;
 
-		myCircle = new SuperCircle((int) (calculatedRatio));
+		myCircle = new SuperCircle((int) (calculatedRadius));
 		
 		StringProperty sp = new SimpleStringProperty("Radius: ");
 		Text radiusLabel = new Text(10, 15, "");

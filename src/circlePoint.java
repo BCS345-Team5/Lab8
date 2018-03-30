@@ -50,6 +50,7 @@ public class circlePoint extends Point{
 		else if(tmpX < min)
 			tmpX = min;
 		x = tmpX - centerX;
+		
 		circle.setCenterX(tmpX);
 		
 		double tmpY = genYCoord(x, scRadius);
