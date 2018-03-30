@@ -1,31 +1,34 @@
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+
 public class Point {
 	
-	protected double x;
-	protected double y;
+	protected DoubleProperty x = new SimpleDoubleProperty();
+	protected DoubleProperty y = new SimpleDoubleProperty();
 
 	public Point() {
-		x = 0;
-		y = 0;
+		x.set(0);
+		y.set(0);
 	}
 	
 	public Point(double x, double y) {
-		this.x = x;
-		this.y = y;
+		this.x.set(x);
+		this.y.set(y);
 	}
 	
 	public void setX(double x) {
-		this.x = x;
+		this.x.set(x);
 	}
 	
 	public void setY(double y) {
-		this.y = y;
+		this.y.set(y);
 	}
 	
 	public double getX() {
-		return x;
+		return x.get();
 	}
 	public double getY() {
-		return y;
+		return y.get();
 	}
 	
 	public double distanceFrom(Point p) {
@@ -37,7 +40,7 @@ public class Point {
 	}
 
 	public String toString() {
-		return x + " " + y;
+		return x.get() + " " + y.get();
 	}
 
 }

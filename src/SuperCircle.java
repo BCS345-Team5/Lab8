@@ -1,10 +1,13 @@
 import java.util.Random;
 
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.text.Text;
 
 public class SuperCircle {
 	private Random gen = new Random();
@@ -16,6 +19,8 @@ public class SuperCircle {
 
 	private circlePoint[] points = new circlePoint[3];
 	private Line[] lines = new Line[3];
+
+	private Group group = new Group();
 
 	public SuperCircle() {
 		radius = 50;
@@ -39,7 +44,7 @@ public class SuperCircle {
 	}
 
 	public Group getCircle() {
-		Group tmp = new Group(circle);
+		group.getChildren().add(circle);
 
 		for (int i = 0; i < 3; i++)
 			points[i] = genPoint();
@@ -48,22 +53,21 @@ public class SuperCircle {
 			lines[i] = new Line();
 			lines[i].startXProperty().bind(points[i].getXProperty());
 			lines[i].startYProperty().bind(points[i].getYProperty());
-			
+
 			if (i == 2) {
 				lines[i].endXProperty().bind(points[0].getXProperty());
 				lines[i].endYProperty().bind(points[0].getYProperty());
-			} 
-			else {
+			} else {
 				lines[i].endXProperty().bind(points[i + 1].getXProperty());
 				lines[i].endYProperty().bind(points[i + 1].getYProperty());
 			}
 
 		}
-		tmp.getChildren().addAll(lines);
-		for (int i = 0; i < 3; i++) 
-			tmp.getChildren().add(points[i].getCircle());
-		
-		return tmp;
+		group.getChildren().addAll(lines);
+		for (int i = 0; i < 3; i++)
+			group.getChildren().add(points[i].getCircle());
+
+		return group;
 	}
 
 	private circlePoint genPoint() {
@@ -75,6 +79,7 @@ public class SuperCircle {
 	}
 
 	public void updatePos(double newCenterX, double newCenterY) {
+
 		centerX = MainDriver.WINDOW_CENTER_X;
 		centerY = MainDriver.WINDOW_CENTER_Y;
 
@@ -86,21 +91,27 @@ public class SuperCircle {
 		circle.setCenterX(centerX);
 		circle.setCenterY(centerY);
 		circle.setRadius(radius);
-		
-		if(radius < 50)
+
+		if (radius < 50)
 			circlePoint.setRadius(4);
 		else
 			circlePoint.setRadius(6);
 
-
 		for (circlePoint p : points)
 			p.updatePos(radius);
 	}
-	
-	
-	
+
 	public void showDebug() {
-		
+		int y = 30;
+		StringProperty sep = new SimpleStringProperty(", ");
+		for (int i = 0; i < 3; i++) {
+			StringProperty pText = new SimpleStringProperty("P" + i + ": ");
+			Text p = new Text(10, y, "");
+			p.textProperty().bind(pText.concat(points[i].x).concat(sep).concat(points[i].y));
+
+			group.getChildren().add(p);
+			y+=15;
+		}
 	}
 
 }

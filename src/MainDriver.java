@@ -24,18 +24,20 @@ public class MainDriver extends Application {
 		double calculatedRadius = WINDOW_SIZE_X * CIRCLE_WINDOW_RATIO / 2;
 
 		myCircle = new SuperCircle((int) (calculatedRadius));
-		
+
 		StringProperty sp = new SimpleStringProperty("Radius: ");
 		Text radiusLabel = new Text(10, 15, "");
 		radiusLabel.textProperty().bind(sp.concat(myCircle.getRadiusProperty()));
 
 		Pane root = new Pane(myCircle.getCircle(), radiusLabel);
+		
+		myCircle.showDebug();
 
 		scene = new Scene(root, WINDOW_SIZE_X, WINDOW_SIZE_Y);
 
 		scene.widthProperty().addListener(this::sceneSizeListener);
 		scene.heightProperty().addListener(this::sceneSizeListener);
-
+		
 		primaryStage.setScene(scene);
 		primaryStage.show();
 

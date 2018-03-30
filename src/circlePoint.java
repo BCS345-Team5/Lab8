@@ -1,4 +1,6 @@
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -22,7 +24,7 @@ public class circlePoint extends Point{
 	}
 	
 	private void init() {
-		circle = new Circle(x + centerX, y + centerY, radius);
+		circle = new Circle(x.get() + centerX, y.get()+ centerY, radius);
 		circle.setFill(Color.RED);
 		circle.setStroke(Color.BLACK);
 		circle.setOnMouseDragged(this::mouseDragHandler);
@@ -43,6 +45,7 @@ public class circlePoint extends Point{
 	public DoubleProperty getYProperty() {
 		return circle.centerYProperty();
 	}
+
 	
 	private void mouseDragHandler(MouseEvent event) {
 		double max = centerX + scRadius;
@@ -53,32 +56,34 @@ public class circlePoint extends Point{
 			tmpX = max;
 		else if(tmpX < min)
 			tmpX = min;
-		x = tmpX - centerX;
+		x.set(tmpX - centerX);
 		
 		circle.setCenterX(tmpX);
 		
-		double tmpY = genYCoord(x, scRadius);
+		double tmpY = genYCoord(x.get(), scRadius);
 		
 		if(event.getY() < centerY)
 			tmpY = tmpY * -1;
-		y = tmpY;
+		y.set(tmpY);
 			
-		circle.setCenterY(y + centerY);
+		circle.setCenterY(y.get() + centerY);
 	}
 	
 	public void updatePos(double newSCRadius) {
 		circle.setRadius(radius);
 		centerX = MainDriver.WINDOW_CENTER_X;
 		centerY = MainDriver.WINDOW_CENTER_Y;
+		if (newSCRadius == 0)
+			newSCRadius = 1;
 		
 		double radiusRatio = newSCRadius/scRadius;
 		scRadius = (int) newSCRadius;
 		
-		x = x * radiusRatio;
-		y = y * radiusRatio;
+		x.set(x.get() * radiusRatio);
+		y.set(y.get() * radiusRatio);
 		
-		circle.setCenterX(x + centerX);
-		circle.setCenterY(y + centerY);
+		circle.setCenterX(x.get() + centerX);
+		circle.setCenterY(y.get() + centerY);
 		
 	}	
 	
