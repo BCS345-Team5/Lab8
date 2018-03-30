@@ -42,10 +42,8 @@ public class SuperCircle {
 		circle.setStroke(Color.BLACK);
 		circle.setStrokeWidth(2);
 	}
-
-	public Group getCircle() {
-		group.getChildren().add(circle);
-
+	
+	public void createPoints() {
 		for (int i = 0; i < 3; i++)
 			points[i] = genPoint();
 
@@ -63,6 +61,10 @@ public class SuperCircle {
 			}
 
 		}
+	}
+
+	public Group getCircle() {
+		group.getChildren().add(circle);
 		group.getChildren().addAll(lines);
 		for (int i = 0; i < 3; i++)
 			group.getChildren().add(points[i].getCircle());
