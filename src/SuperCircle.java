@@ -86,12 +86,21 @@ public class SuperCircle {
 		circle.setCenterX(centerX);
 		circle.setCenterY(centerY);
 		circle.setRadius(radius);
+		
+		if(radius < 50)
+			circlePoint.setRadius(4);
+		else
+			circlePoint.setRadius(6);
 
-		for (circlePoint p : points) {
+
+		for (circlePoint p : points)
 			p.updatePos(radius);
-
-		}
-
+	}
+	
+	
+	
+	public void showDebug() {
+		
 	}
 
 }

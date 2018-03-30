@@ -9,7 +9,7 @@ public class circlePoint extends Point{
 	private double centerX = MainDriver.WINDOW_CENTER_X;
 	private double centerY = MainDriver.WINDOW_CENTER_Y;
 	private int scRadius;
-	private int radius = 6;
+	private static int radius = 6;
 	
 	public static double genYCoord(double xCoord, int scRadius) {
 		return (Math.sqrt((Math.pow(scRadius,2) - Math.pow((xCoord), 2))));
@@ -30,6 +30,10 @@ public class circlePoint extends Point{
 	
 	public Circle getCircle() {
 		return circle;
+	}
+	
+	public static void setRadius(int radius) {
+		circlePoint.radius = radius;
 	}
 	
 	public DoubleProperty getXProperty() {
@@ -63,7 +67,7 @@ public class circlePoint extends Point{
 	}
 	
 	public void updatePos(double newSCRadius) {
-		
+		circle.setRadius(radius);
 		centerX = MainDriver.WINDOW_CENTER_X;
 		centerY = MainDriver.WINDOW_CENTER_Y;
 		
