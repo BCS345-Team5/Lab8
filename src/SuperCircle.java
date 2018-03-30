@@ -14,12 +14,11 @@ public class SuperCircle {
 	private int radius;
 	private double centerX = MainDriver.WINDOW_CENTER_X;
 	private double centerY = MainDriver.WINDOW_CENTER_Y;
+
 	@SuppressWarnings("unused")
 	private Point center = new Point();
-
 	private circlePoint[] points = new circlePoint[3];
 	private Line[] lines = new Line[3];
-
 	private Group group = new Group();
 
 	public SuperCircle() {
@@ -32,17 +31,13 @@ public class SuperCircle {
 		init();
 	}
 
-	public DoubleProperty getRadiusProperty() {
-		return circle.radiusProperty();
-	}
-
 	private void init() {
 		circle = new Circle(centerX, centerY, radius);
 		circle.setFill(Color.TRANSPARENT);
 		circle.setStroke(Color.BLACK);
 		circle.setStrokeWidth(2);
 	}
-	
+
 	public void createPoints() {
 		for (int i = 0; i < 3; i++)
 			points[i] = genPoint();
@@ -68,7 +63,6 @@ public class SuperCircle {
 		group.getChildren().addAll(lines);
 		for (int i = 0; i < 3; i++)
 			group.getChildren().add(points[i].getCircle());
-
 		return group;
 	}
 
@@ -106,13 +100,20 @@ public class SuperCircle {
 	public void showDebug() {
 		int y = 30;
 		StringProperty comma = new SimpleStringProperty(", ");
+		StringProperty radius = new SimpleStringProperty("Radius: ");
+
+		Text radiusLabel = new Text(10, 15, "");
+		radiusLabel.textProperty().bind(radius.concat(circle.radiusProperty()));
+
+		group.getChildren().add(radiusLabel);
+
 		for (int i = 0; i < 3; i++) {
 			StringProperty pText = new SimpleStringProperty("P" + i + ": ");
 			Text p = new Text(10, y, "");
 			p.textProperty().bind(pText.concat(points[i].x).concat(comma).concat(points[i].y));
 
 			group.getChildren().add(p);
-			y+=15;
+			y += 15;
 		}
 	}
 

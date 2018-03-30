@@ -27,17 +27,12 @@ public class MainDriver extends Application {
 		myCircle.createPoints();
 		myCircle.showDebug();
 
-		StringProperty sp = new SimpleStringProperty("Radius: ");
-		Text radiusLabel = new Text(10, 15, "");
-		radiusLabel.textProperty().bind(sp.concat(myCircle.getRadiusProperty()));
-
-		Pane root = new Pane(myCircle.getCircle(), radiusLabel);
+		Pane root = new Pane(myCircle.getCircle());
 
 		scene = new Scene(root, WINDOW_SIZE_X, WINDOW_SIZE_Y);
-
 		scene.widthProperty().addListener(this::sceneSizeListener);
 		scene.heightProperty().addListener(this::sceneSizeListener);
-		
+
 		primaryStage.setScene(scene);
 		primaryStage.show();
 
