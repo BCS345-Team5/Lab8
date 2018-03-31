@@ -1,16 +1,13 @@
 import javafx.application.Application;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class MainDriver extends Application {
 
-	public static double WINDOW_SIZE_X = 375;
-	public static double WINDOW_SIZE_Y = 375;
+	public static double WINDOW_SIZE_X = 450;
+	public static double WINDOW_SIZE_Y = 450;
 	public static double WINDOW_CENTER_X = WINDOW_SIZE_X / 2;
 	public static double WINDOW_CENTER_Y = WINDOW_SIZE_Y / 2;
 	public final static double CIRCLE_WINDOW_RATIO = 2.0 / 3.0;
@@ -34,6 +31,7 @@ public class MainDriver extends Application {
 		scene.heightProperty().addListener(this::sceneSizeListener);
 
 		primaryStage.setScene(scene);
+		primaryStage.setTitle("Lab8-Assignment");
 		primaryStage.show();
 
 	}

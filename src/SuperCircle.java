@@ -1,5 +1,4 @@
 import java.util.Random;
-import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.Group;
@@ -54,8 +53,9 @@ public class SuperCircle {
 				lines[i].endXProperty().bind(points[i + 1].getXProperty());
 				lines[i].endYProperty().bind(points[i + 1].getYProperty());
 			}
-
 		}
+
+
 	}
 
 	public Group getCircle() {
@@ -98,23 +98,26 @@ public class SuperCircle {
 	}
 
 	public void showDebug() {
-		int y = 30;
+		int y = 15;
 		StringProperty comma = new SimpleStringProperty(", ");
 		StringProperty radius = new SimpleStringProperty("Radius: ");
 
-		Text radiusLabel = new Text(10, 15, "");
+		Text radiusLabel = new Text(10, y, "");
 		radiusLabel.textProperty().bind(radius.concat(circle.radiusProperty()));
 
 		group.getChildren().add(radiusLabel);
 
 		for (int i = 0; i < 3; i++) {
+			y += 15;
 			StringProperty pText = new SimpleStringProperty("P" + i + ": ");
 			Text p = new Text(10, y, "");
 			p.textProperty().bind(pText.concat(points[i].x).concat(comma).concat(points[i].y));
 
 			group.getChildren().add(p);
-			y += 15;
 		}
+		Text note = new Text(10, y+=15, "(DISABLE IN MAINDRIVER)");
+		group.getChildren().add(note);
+
 	}
 
 }

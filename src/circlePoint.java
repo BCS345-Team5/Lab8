@@ -2,6 +2,7 @@ import javafx.beans.property.DoubleProperty;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.Text;
 
 public class circlePoint extends Point {
 
@@ -10,6 +11,7 @@ public class circlePoint extends Point {
 	private double centerY = MainDriver.WINDOW_CENTER_Y;
 	private int scRadius;
 	private static int radius = 6;
+	private Text angleText = new Text();
 
 	public static double genYCoord(double xCoord, int scRadius) {
 		return (Math.sqrt((Math.pow(scRadius, 2) - Math.pow((xCoord), 2))));
@@ -30,6 +32,10 @@ public class circlePoint extends Point {
 
 	public Circle getCircle() {
 		return circle;
+	}
+	
+	public Text getAngleText() {
+		return angleText;
 	}
 
 	public static void setRadius(int radius) {
