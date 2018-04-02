@@ -71,8 +71,10 @@ public class SuperCircle {
 	public Group getCircle() {
 		group.getChildren().add(circle);
 		group.getChildren().addAll(lines);
-		for (int i = 0; i < 3; i++)
+		for (int i = 0; i < 3; i++) {
+			group.getChildren().add(points[i].getAngleText());
 			group.getChildren().add(points[i].getCircle());
+		}
 		return group;
 	}
 
@@ -81,6 +83,7 @@ public class SuperCircle {
 	}
 
 	private void updateProperties() {
+		StringProperty tmp = new SimpleStringProperty("");
 		DecimalFormat df = new DecimalFormat("#.0");
 
 		for (int i = 0; i < 3; i++) {
@@ -112,9 +115,17 @@ public class SuperCircle {
 			angles[2].set(180 * (Math.acos(((c * c) - (b * b) - (a * a)) / (-2 * a * b))) / Math.PI);
 		}
 		
-		// ADD LABEL POSITIONING HERE
+		// ADD LABEL POSITIONING HERE 
 		//
-		//
+		// Not working yet
+		for (int i = 0; i < 3; i++) {
+			Text t = points[i].getAngleText();
+			t.textProperty().bind(tmp.concat(angles[i]));
+			
+			t.xProperty().bind(points[i].x.multiply((radius+100)/radius).add(centerX));
+			t.yProperty().bind(points[i].y.multiply((radius+100)/radius).multiply(-1).add(centerY));
+		}
+
 
 	}
 
