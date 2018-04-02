@@ -23,7 +23,7 @@ public class SuperCircle {
 	private circlePoint[] points = new circlePoint[3];
 	private Line[] lines = new Line[3];
 	private double[] distances = new double[3];
-	private DoubleProperty[] angles = new SimpleDoubleProperty[3];
+	private double[] angles = new double[3];
 	private Group group = new Group();
 
 	public SuperCircle() {
@@ -83,7 +83,6 @@ public class SuperCircle {
 	}
 
 	private void updateProperties() {
-		StringProperty tmp = new SimpleStringProperty("");
 		DecimalFormat df = new DecimalFormat("#.0");
 
 		for (int i = 0; i < 3; i++) {
@@ -98,28 +97,24 @@ public class SuperCircle {
 		double b = distances[2];
 		double c = distances[0];
 
-		for (int i = 0; i < 3; i++) {
-			angles[i] = new SimpleDoubleProperty();
-		}
-		
 		try {
-			angles[0].set(Double
+			angles[0] = (Double
 					.parseDouble(df.format(180 * (Math.acos(((a * a) - (b * b) - (c * c)) / (-2 * b * c))) / Math.PI)));
-			angles[1].set(Double
+			angles[1] = (Double
 					.parseDouble(df.format(180 * (Math.acos(((b * b) - (a * a) - (c * c)) / (-2 * a * c))) / Math.PI)));
-			angles[2].set(Double
+			angles[2] = (Double
 					.parseDouble(df.format(180 * (Math.acos(((c * c) - (b * b) - (a * a)) / (-2 * a * b))) / Math.PI)));
 		} catch (NumberFormatException e) {
-			angles[0].set(180 * (Math.acos(((a * a) - (b * b) - (c * c)) / (-2 * b * c))) / Math.PI);
-			angles[1].set(180 * (Math.acos(((b * b) - (a * a) - (c * c)) / (-2 * a * c))) / Math.PI);
-			angles[2].set(180 * (Math.acos(((c * c) - (b * b) - (a * a)) / (-2 * a * b))) / Math.PI);
+			angles[0] = (180 * (Math.acos(((a * a) - (b * b) - (c * c)) / (-2 * b * c))) / Math.PI);
+			angles[1] = (180 * (Math.acos(((b * b) - (a * a) - (c * c)) / (-2 * a * c))) / Math.PI);
+			angles[2] = (180 * (Math.acos(((c * c) - (b * b) - (a * a)) / (-2 * a * b))) / Math.PI);
 		}
 		
 		double tmpRadius = radius;
 		
 		for (int i = 0; i < 3; i++) {
 			Text t = points[i].getAngleText();
-			t.textProperty().bind(tmp.concat(angles[i]));
+			t.setText(String.valueOf(angles[i]));
 			
 			//if(angles[i] > minAngle) {
 				
@@ -127,7 +122,7 @@ public class SuperCircle {
 			
 			// }
 			// else
-				t.xProperty().bind(points[i].x.multiply((tmpRadius+25)/tmpRadius).add(centerX-15));
+				t.xProperty().bind(points[i].x.multiply((tmpRadius+25)/tmpRadius).add(centerX-12));
 				t.yProperty().bind(points[i].y.multiply((tmpRadius+15)/tmpRadius).multiply(-1).add(centerY+5));
 		}
 	}
