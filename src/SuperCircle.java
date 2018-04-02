@@ -115,18 +115,15 @@ public class SuperCircle {
 			angles[2].set(180 * (Math.acos(((c * c) - (b * b) - (a * a)) / (-2 * a * b))) / Math.PI);
 		}
 		
-		// ADD LABEL POSITIONING HERE 
-		//
-		// Not working yet
+		double tmpRadius = radius;
+		
 		for (int i = 0; i < 3; i++) {
 			Text t = points[i].getAngleText();
 			t.textProperty().bind(tmp.concat(angles[i]));
 			
-			t.xProperty().bind(points[i].x.multiply((radius+100)/radius).add(centerX));
-			t.yProperty().bind(points[i].y.multiply((radius+100)/radius).multiply(-1).add(centerY));
+			t.xProperty().bind(points[i].x.multiply((tmpRadius+25)/tmpRadius).add(centerX-15));
+			t.yProperty().bind(points[i].y.multiply((tmpRadius+15)/tmpRadius).multiply(-1).add(centerY+5));
 		}
-
-
 	}
 
 	private circlePoint genPoint() {
