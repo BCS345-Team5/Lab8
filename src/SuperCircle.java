@@ -1,6 +1,11 @@
+import java.text.DecimalFormat;
 import java.util.Random;
+
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -18,6 +23,8 @@ public class SuperCircle {
 	private Point center = new Point();
 	private circlePoint[] points = new circlePoint[3];
 	private Line[] lines = new Line[3];
+	private double[] distances = new double[3];
+	private DoubleProperty[] angles = new SimpleDoubleProperty[3];
 	private Group group = new Group();
 
 	public SuperCircle() {
@@ -42,6 +49,10 @@ public class SuperCircle {
 			points[i] = genPoint();
 
 		for (int i = 0; i < 3; i++) {
+
+			points[i].getCircle().centerXProperty().addListener(this::pointListener);
+			points[i].getCircle().centerYProperty().addListener(this::pointListener);
+
 			lines[i] = new Line();
 			lines[i].startXProperty().bind(points[i].getXProperty());
 			lines[i].startYProperty().bind(points[i].getYProperty());
@@ -54,7 +65,7 @@ public class SuperCircle {
 				lines[i].endYProperty().bind(points[i + 1].getYProperty());
 			}
 		}
-
+		updateProperties();
 
 	}
 
@@ -64,6 +75,43 @@ public class SuperCircle {
 		for (int i = 0; i < 3; i++)
 			group.getChildren().add(points[i].getCircle());
 		return group;
+	}
+
+	private void pointListener(ObservableValue<? extends Number> val, Number oldValue, Number newValue) {
+		updateProperties();
+	}
+
+	private void updateProperties() {
+		DecimalFormat df = new DecimalFormat("#.0");
+
+		for (int i = 0; i < 3; i++) {
+			if (i == 2) {
+				distances[i] = Point.getDistance(points[i], points[0]);
+			} else {
+				distances[i] = Point.getDistance(points[i], points[i + 1]);
+			}
+		}
+
+		double a = distances[1];
+		double b = distances[2];
+		double c = distances[0];
+
+		for (int i = 0; i < 3; i++) {
+			angles[i] = new SimpleDoubleProperty();
+		}
+		try {
+			angles[0].set(Double
+					.parseDouble(df.format(180 * (Math.acos(((a * a) - (b * b) - (c * c)) / (-2 * b * c))) / Math.PI)));
+			angles[1].set(Double
+					.parseDouble(df.format(180 * (Math.acos(((b * b) - (a * a) - (c * c)) / (-2 * a * c))) / Math.PI)));
+			angles[2].set(Double
+					.parseDouble(df.format(180 * (Math.acos(((c * c) - (b * b) - (a * a)) / (-2 * a * b))) / Math.PI)));
+		} catch (NumberFormatException e) {
+			angles[0].set(180 * (Math.acos(((a * a) - (b * b) - (c * c)) / (-2 * b * c))) / Math.PI);
+			angles[1].set(180 * (Math.acos(((b * b) - (a * a) - (c * c)) / (-2 * a * c))) / Math.PI);
+			angles[2].set(180 * (Math.acos(((c * c) - (b * b) - (a * a)) / (-2 * a * b))) / Math.PI);
+		}
+
 	}
 
 	private circlePoint genPoint() {
@@ -115,7 +163,7 @@ public class SuperCircle {
 
 			group.getChildren().add(p);
 		}
-		Text note = new Text(10, y+=15, "(DISABLE IN MAINDRIVER)");
+		Text note = new Text(10, y += 15, "(DISABLE IN MAINDRIVER)");
 		group.getChildren().add(note);
 
 	}
