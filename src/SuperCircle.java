@@ -121,8 +121,14 @@ public class SuperCircle {
 			Text t = points[i].getAngleText();
 			t.textProperty().bind(tmp.concat(angles[i]));
 			
-			t.xProperty().bind(points[i].x.multiply((tmpRadius+25)/tmpRadius).add(centerX-15));
-			t.yProperty().bind(points[i].y.multiply((tmpRadius+15)/tmpRadius).multiply(-1).add(centerY+5));
+			//if(angles[i] > minAngle) {
+				
+				// Dynamic placement between lines
+			
+			// }
+			// else
+				t.xProperty().bind(points[i].x.multiply((tmpRadius+25)/tmpRadius).add(centerX-15));
+				t.yProperty().bind(points[i].y.multiply((tmpRadius+15)/tmpRadius).multiply(-1).add(centerY+5));
 		}
 	}
 
