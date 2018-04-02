@@ -1,6 +1,5 @@
 import java.text.DecimalFormat;
 import java.util.Random;
-
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -99,6 +98,7 @@ public class SuperCircle {
 		for (int i = 0; i < 3; i++) {
 			angles[i] = new SimpleDoubleProperty();
 		}
+		
 		try {
 			angles[0].set(Double
 					.parseDouble(df.format(180 * (Math.acos(((a * a) - (b * b) - (c * c)) / (-2 * b * c))) / Math.PI)));
@@ -111,6 +111,10 @@ public class SuperCircle {
 			angles[1].set(180 * (Math.acos(((b * b) - (a * a) - (c * c)) / (-2 * a * c))) / Math.PI);
 			angles[2].set(180 * (Math.acos(((c * c) - (b * b) - (a * a)) / (-2 * a * b))) / Math.PI);
 		}
+		
+		// ADD LABEL POSITIONING HERE
+		//
+		//
 
 	}
 
