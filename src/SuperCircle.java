@@ -15,6 +15,8 @@ public class SuperCircle {
 	private int radius;
 	private double centerX = MainDriver.WINDOW_CENTER_X;
 	private double centerY = MainDriver.WINDOW_CENTER_Y;
+	private final int minAngle = 45;
+	private final int minDistance = 65;
 
 	@SuppressWarnings("unused")
 	private Point center = new Point();
@@ -54,10 +56,17 @@ public class SuperCircle {
 			lines[i] = new Line();
 			lines[i].startXProperty().bind(points[i].getXProperty());
 			lines[i].startYProperty().bind(points[i].getYProperty());
-			
+
 			lines[i].endXProperty().bind(points[(i + 1) % 3].getXProperty());
 			lines[i].endYProperty().bind(points[(i + 1) % 3].getYProperty());
 		}
+
+		calculateAngles();
+
+		for (int i = 0; i < 3; i++)
+			if (angles[i] < minAngle || distances[i] < minDistance)
+				createPoints();
+
 		updateProperties();
 
 	}
@@ -77,29 +86,8 @@ public class SuperCircle {
 	}
 
 	private void updateProperties() {
-		DecimalFormat df = new DecimalFormat("#.0");
 
-		for (int i = 0; i < 3; i++) {
-
-				distances[i] = Point.getDistance(points[i], points[(i + 1)%3]);
-		}
-
-		double a = distances[1];
-		double b = distances[2];
-		double c = distances[0];
-
-		try {
-			angles[0] = (Double
-					.parseDouble(df.format(180 * (Math.acos(((a * a) - (b * b) - (c * c)) / (-2 * b * c))) / Math.PI)));
-			angles[1] = (Double
-					.parseDouble(df.format(180 * (Math.acos(((b * b) - (a * a) - (c * c)) / (-2 * a * c))) / Math.PI)));
-			angles[2] = (Double
-					.parseDouble(df.format(180 * (Math.acos(((c * c) - (b * b) - (a * a)) / (-2 * a * b))) / Math.PI)));
-		} catch (NumberFormatException e) {
-			angles[0] = (180 * (Math.acos(((a * a) - (b * b) - (c * c)) / (-2 * b * c))) / Math.PI);
-			angles[1] = (180 * (Math.acos(((b * b) - (a * a) - (c * c)) / (-2 * a * c))) / Math.PI);
-			angles[2] = (180 * (Math.acos(((c * c) - (b * b) - (a * a)) / (-2 * a * b))) / Math.PI);
-		}
+		calculateAngles();
 
 		double tmpRadius = radius;
 
@@ -109,12 +97,12 @@ public class SuperCircle {
 
 			boolean shortDist;
 
-			if (distances[(i) % 3] < 65 || distances[(i + 2) % 3] < 65)
+			if (distances[(i) % 3] < minDistance || distances[(i + 2) % 3] < minDistance)
 				shortDist = true;
 			else
 				shortDist = false;
 
-			if (angles[i] > 45 && !shortDist) {
+			if (angles[i] > minAngle && !shortDist) {
 				double dy, dx, dr, x1, x2, y1, y2, xf, yf;
 				double r = 30;
 
@@ -142,6 +130,30 @@ public class SuperCircle {
 				t.setX((points[i].x.get() * ((tmpRadius + 25) / tmpRadius)) + (centerX - 14));
 				t.setY(((points[i].y.get() * ((tmpRadius + 15) / tmpRadius)) * -1) + (centerY + 5));
 			}
+		}
+	}
+
+	private void calculateAngles() {
+		DecimalFormat df = new DecimalFormat("#.0");
+
+		for (int i = 0; i < 3; i++)
+			distances[i] = Point.getDistance(points[i], points[(i + 1) % 3]);
+
+		double a = distances[1];
+		double b = distances[2];
+		double c = distances[0];
+
+		try {
+			angles[0] = (Double
+					.parseDouble(df.format(180 * (Math.acos(((a * a) - (b * b) - (c * c)) / (-2 * b * c))) / Math.PI)));
+			angles[1] = (Double
+					.parseDouble(df.format(180 * (Math.acos(((b * b) - (a * a) - (c * c)) / (-2 * a * c))) / Math.PI)));
+			angles[2] = (Double
+					.parseDouble(df.format(180 * (Math.acos(((c * c) - (b * b) - (a * a)) / (-2 * a * b))) / Math.PI)));
+		} catch (NumberFormatException e) {
+			angles[0] = (180 * (Math.acos(((a * a) - (b * b) - (c * c)) / (-2 * b * c))) / Math.PI);
+			angles[1] = (180 * (Math.acos(((b * b) - (a * a) - (c * c)) / (-2 * a * c))) / Math.PI);
+			angles[2] = (180 * (Math.acos(((c * c) - (b * b) - (a * a)) / (-2 * a * b))) / Math.PI);
 		}
 	}
 
