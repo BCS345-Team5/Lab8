@@ -32,6 +32,7 @@ public class SuperCircle {
 	public SuperCircle(int radius) {
 		this.radius = radius;
 		init();
+
 	}
 
 	private void init() {
@@ -53,14 +54,9 @@ public class SuperCircle {
 			lines[i] = new Line();
 			lines[i].startXProperty().bind(points[i].getXProperty());
 			lines[i].startYProperty().bind(points[i].getYProperty());
-
-			if (i == 2) {
-				lines[i].endXProperty().bind(points[0].getXProperty());
-				lines[i].endYProperty().bind(points[0].getYProperty());
-			} else {
-				lines[i].endXProperty().bind(points[i + 1].getXProperty());
-				lines[i].endYProperty().bind(points[i + 1].getYProperty());
-			}
+			
+			lines[i].endXProperty().bind(points[(i + 1) % 3].getXProperty());
+			lines[i].endYProperty().bind(points[(i + 1) % 3].getYProperty());
 		}
 		updateProperties();
 
@@ -84,11 +80,8 @@ public class SuperCircle {
 		DecimalFormat df = new DecimalFormat("#.0");
 
 		for (int i = 0; i < 3; i++) {
-			if (i == 2) {
-				distances[i] = Point.getDistance(points[i], points[0]);
-			} else {
-				distances[i] = Point.getDistance(points[i], points[i + 1]);
-			}
+
+				distances[i] = Point.getDistance(points[i], points[(i + 1)%3]);
 		}
 
 		double a = distances[1];
@@ -113,10 +106,10 @@ public class SuperCircle {
 		for (int i = 0; i < 3; i++) {
 			Text t = points[i].getAngleText();
 			t.setText(String.valueOf(angles[i]));
-			
+
 			boolean shortDist;
-			
-			if(distances[(i)%3] < 65 || distances[(i+2)%3] < 65)
+
+			if (distances[(i) % 3] < 65 || distances[(i + 2) % 3] < 65)
 				shortDist = true;
 			else
 				shortDist = false;
@@ -131,21 +124,20 @@ public class SuperCircle {
 
 				x1 = ((dx) * Math.sqrt((r * r) * (dr * dr))) / (dr * dr);
 				y1 = ((dy) * Math.sqrt((r * r) * (dr * dr))) / (dr * dr);
-				
+
 				dx = points[(i + 2) % 3].x.get() - points[i].x.get();
 				dy = points[(i + 2) % 3].y.get() - points[i].y.get();
 				dr = Math.hypot(dx, dy);
-				
+
 				x2 = ((dx) * Math.sqrt((r * r) * (dr * dr))) / (dr * dr);
 				y2 = ((dy) * Math.sqrt((r * r) * (dr * dr))) / (dr * dr);
-				
-				xf = r * ((x1 + x2) / (Math.hypot((x1+x2), (y1+y2))));
+
+				xf = r * ((x1 + x2) / (Math.hypot((x1 + x2), (y1 + y2))));
 				yf = ((y1 + y2) / (x1 + x2)) * (xf);
-				
+
 				t.setX(xf + points[i].getX() + centerX - 12);
 				t.setY(-1 * (yf + points[i].getY()) + centerY + 5);
-				
-				
+
 			} else {
 				t.setX((points[i].x.get() * ((tmpRadius + 25) / tmpRadius)) + (centerX - 14));
 				t.setY(((points[i].y.get() * ((tmpRadius + 15) / tmpRadius)) * -1) + (centerY + 5));
