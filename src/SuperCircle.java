@@ -116,14 +116,14 @@ public class SuperCircle {
 			
 			boolean shortDist;
 			
-			if(distances[(i+1)%3] < 65 || distances[(i+2)%3] < 65)
+			if(distances[(i)%3] < 65 || distances[(i+2)%3] < 65)
 				shortDist = true;
 			else
 				shortDist = false;
 
-			if (angles[i] > 40 && !shortDist) {
+			if (angles[i] > 45 && !shortDist) {
 				double dy, dx, dr, x1, x2, y1, y2, xf, yf;
-				double r = 25;
+				double r = 30;
 
 				dx = points[(i + 1) % 3].x.get() - points[i].x.get();
 				dy = points[(i + 1) % 3].y.get() - points[i].y.get();
@@ -142,12 +142,12 @@ public class SuperCircle {
 				xf = r * ((x1 + x2) / (Math.hypot((x1+x2), (y1+y2))));
 				yf = ((y1 + y2) / (x1 + x2)) * (xf);
 				
-				t.setX(xf + points[i].getX() + centerX - 10);
+				t.setX(xf + points[i].getX() + centerX - 12);
 				t.setY(-1 * (yf + points[i].getY()) + centerY + 5);
 				
 				
 			} else {
-				t.setX((points[i].x.get() * ((tmpRadius + 25) / tmpRadius)) + (centerX - 12));
+				t.setX((points[i].x.get() * ((tmpRadius + 25) / tmpRadius)) + (centerX - 14));
 				t.setY(((points[i].y.get() * ((tmpRadius + 15) / tmpRadius)) * -1) + (centerY + 5));
 			}
 		}
