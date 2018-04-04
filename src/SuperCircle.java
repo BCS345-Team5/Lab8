@@ -1,7 +1,5 @@
 import java.text.DecimalFormat;
 import java.util.Random;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ObservableValue;
@@ -109,21 +107,49 @@ public class SuperCircle {
 			angles[1] = (180 * (Math.acos(((b * b) - (a * a) - (c * c)) / (-2 * a * c))) / Math.PI);
 			angles[2] = (180 * (Math.acos(((c * c) - (b * b) - (a * a)) / (-2 * a * b))) / Math.PI);
 		}
-		
+
 		double tmpRadius = radius;
-		
+
 		for (int i = 0; i < 3; i++) {
 			Text t = points[i].getAngleText();
 			t.setText(String.valueOf(angles[i]));
 			
-			//if(angles[i] > minAngle) {
-				
-				// Dynamic placement between lines
+			boolean shortDist;
 			
-			// }
-			// else
-				t.xProperty().bind(points[i].x.multiply((tmpRadius+25)/tmpRadius).add(centerX-12));
-				t.yProperty().bind(points[i].y.multiply((tmpRadius+15)/tmpRadius).multiply(-1).add(centerY+5));
+			if(distances[(i+1)%3] < 65 || distances[(i+2)%3] < 65)
+				shortDist = true;
+			else
+				shortDist = false;
+
+			if (angles[i] > 40 && !shortDist) {
+				double dy, dx, dr, x1, x2, y1, y2, xf, yf;
+				double r = 25;
+
+				dx = points[(i + 1) % 3].x.get() - points[i].x.get();
+				dy = points[(i + 1) % 3].y.get() - points[i].y.get();
+				dr = Math.hypot(dx, dy);
+
+				x1 = ((dx) * Math.sqrt((r * r) * (dr * dr))) / (dr * dr);
+				y1 = ((dy) * Math.sqrt((r * r) * (dr * dr))) / (dr * dr);
+				
+				dx = points[(i + 2) % 3].x.get() - points[i].x.get();
+				dy = points[(i + 2) % 3].y.get() - points[i].y.get();
+				dr = Math.hypot(dx, dy);
+				
+				x2 = ((dx) * Math.sqrt((r * r) * (dr * dr))) / (dr * dr);
+				y2 = ((dy) * Math.sqrt((r * r) * (dr * dr))) / (dr * dr);
+				
+				xf = r * ((x1 + x2) / (Math.hypot((x1+x2), (y1+y2))));
+				yf = ((y1 + y2) / (x1 + x2)) * (xf);
+				
+				t.setX(xf + points[i].getX() + centerX - 10);
+				t.setY(-1 * (yf + points[i].getY()) + centerY + 5);
+				
+				
+			} else {
+				t.setX((points[i].x.get() * ((tmpRadius + 25) / tmpRadius)) + (centerX - 12));
+				t.setY(((points[i].y.get() * ((tmpRadius + 15) / tmpRadius)) * -1) + (centerY + 5));
+			}
 		}
 	}
 

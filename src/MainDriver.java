@@ -22,7 +22,8 @@ public class MainDriver extends Application {
 
 		myCircle = new SuperCircle((int) (calculatedRadius));
 		myCircle.createPoints();
-		myCircle.showDebug();
+		
+		//myCircle.showDebug();
 
 		Pane root = new Pane(myCircle.getCircle());
 
