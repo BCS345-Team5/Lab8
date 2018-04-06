@@ -37,6 +37,10 @@ public class MainDriver extends Application {
 
 	}
 
+	//
+	//Private method to update the position of the circle when
+	//the window size has been changed
+	//
 	private void sceneSizeListener(ObservableValue<? extends Number> val, Number oldValue, Number newValue) {
 		WINDOW_SIZE_X = scene.getWidth();
 		WINDOW_SIZE_Y = scene.getHeight();
