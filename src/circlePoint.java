@@ -17,12 +17,19 @@ public class circlePoint extends Point {
 		return (Math.sqrt((Math.pow(scRadius, 2) - Math.pow((xCoord), 2))));
 	}
 
+	//
+	//Constructor
+	//sets the x and y coordinates of a point on the circle
+	//
 	public circlePoint(double x, double y, int scRadius) {
 		super(x, y);
 		this.scRadius = scRadius;
 		init();
 	}
 
+	//
+	//Private method to initialize the Circle
+	//
 	private void init() {
 		circle = new Circle(x.get() + centerX, (-1 * y.get()) + centerY, radius);
 		circle.setFill(Color.RED);
@@ -50,6 +57,10 @@ public class circlePoint extends Point {
 		return circle.centerYProperty();
 	}
 
+	//
+	//Private method to handle mouse drag events
+	//Gets the current mouse x position to move the point
+	//
 	private void mouseDragHandler(MouseEvent event) {
 		double max = centerX + scRadius;
 		double min = centerX - scRadius;
@@ -72,6 +83,10 @@ public class circlePoint extends Point {
 		circle.setCenterY((-1 * y.get()) + centerY);
 	}
 
+	//
+	//Public method used to update the position of the circle to
+	//the center if the window size is changed
+	//
 	public void updatePos(double newSCRadius) {
 		circle.setRadius(radius);
 		centerX = MainDriver.WINDOW_CENTER_X;
